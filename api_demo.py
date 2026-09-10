@@ -86,7 +86,11 @@ with tab1:
     st.markdown("---")
     st.markdown("#### How can this help me save time?")
     st.info("Instead of having to create multiple reports (quarterly, monthly, etc), you can use an API to pull in live data and show it in a dashboard. This way you can update the data on the fly, and save time and money on the reports." \
-    "There are other methods of using APIs as well. You can use APi data pulls to train models with relevant data immediately or use it as a gateway between data storage and work delvierables")
+    " There are other methods of using APIs as well. You can use API data pulls in other use cases as well, such as to train models with relevant data immediately.")
+    st.markdown("---")
+    st.markdown("#### Data pulling methods of APIs")
+    st.info("In this dashboard, I am showing two examples of how an API can be used to pull in data. APIs have certain 'endpoints' that can be used to pull specific features of interest. In this dashboard, I specifically pulled in " \
+    "two different endpoints: one for live carbon intensity tracking for today's date and one for live carbon intensity tracking for a past date. According to the specific API's documentation, you can pull in whatever information you want, as long as it is offered by the API documentation.")
 
 with tab2:
     st.markdown("#### Pulling live data via API endpoint")
