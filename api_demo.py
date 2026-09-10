@@ -7,6 +7,7 @@ from datetime import datetime
 # page config
 st.set_page_config(
     page_title="Consultancy Hacks Dashboard",
+    icon= ":D",
     layout="wide"
 )
 
@@ -82,6 +83,7 @@ tab1, tab2, tab3 = st.tabs(["What is an API?", "Live Data Example", "Historical 
 
 with tab1: 
     st.markdown("### What is an API?")
+    st.info("API stands for Application Programming Interface. I like to think of an API as a gateway to data found on the internet. APIs are used to securely pull data from a source and present it in a way that is easy for us to use without any jargon or unnecessary information.")
 
 with tab2:
     st.markdown("#### Pulling live data via API endpoint")
