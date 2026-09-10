@@ -7,7 +7,7 @@ from datetime import datetime
 # page config
 st.set_page_config(
     page_title="Consultancy Hacks Dashboard",
-    icon= ":D",
+    icon= ":chart_with_upwards_trend:",
     layout="wide"
 )
 
