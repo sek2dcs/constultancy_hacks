@@ -97,7 +97,7 @@ with tab2:
         )
         fig_live.update_layout(
             xaxis_title="Time",
-            yaxis_title="Intensity (gCO2/kWh)"
+            yaxis_title="Raw Intensity (gCO2/kWh)"
           
         )
         st.plotly_chart(fig_live, use_container_width=True)
@@ -118,7 +118,7 @@ with tab3:
         fig_stagnant = px.area(
             stagnant_df, 
             x='Timestamp', 
-            y='Intensity (gCO2/kWh)'
+            y='Raw Intensity (gCO2/kWh)'
         )
         fig_stagnant.update_layout(
             xaxis_title="Time",
