@@ -4,22 +4,17 @@ import requests
 import plotly.express as px
 from datetime import datetime
 
-# ==========================================
-# PAGE CONFIGURATION
-# ==========================================
+# page config
 st.set_page_config(
-    page_title="ESG Strategic Advisory Dashboard",
-    page_icon="📊",
+    page_title="Consultancy Hacks Dashboard",
     layout="wide"
 )
 
-# ==========================================
-# DATA FETCHING FUNCTIONS (RAW API DATA)
-# ==========================================
-@st.cache_data(ttl=300)
+# getting api data
+@st.cache_data()
 def fetch_live_raw_data():
-    """Pulls today's raw half-hourly carbon intensity data from the UK National Grid."""
-    # Using the /date endpoint without a specific date defaults to today
+    """pulling live carbon data from UK site"""
+    # endpoint pulls data from today only via /date 
     url = "https://api.carbonintensity.org.uk/intensity/date"
     try:
         response = requests.get(url, timeout=5)
@@ -35,8 +30,8 @@ def fetch_live_raw_data():
 
 @st.cache_data
 def fetch_stagnant_raw_data():
-    """Pulls a fixed, stagnant day of raw data from the API (e.g., Oct 1, 2023)."""
-    url = "https://api.carbonintensity.org.uk/intensity/date/2023-10-01"
+    """pulling historical carbon data from Jan 1 2024"""
+    url = "https://api.carbonintensity.org.uk/intensity/date/2024-01-01"
     try:
         response = requests.get(url, timeout=5)
         data = response.json()['data']
@@ -49,55 +44,48 @@ def fetch_stagnant_raw_data():
     except Exception:
         return pd.DataFrame(columns=['Timestamp', 'Raw Intensity (gCO2/kWh)'])
 
-# ==========================================
-# DASHBOARD UI & FAKE METRICS
-# ==========================================
-st.title("📊 ESG & Grid Operations Summary")
+
+
+# dashboard setup 
+st.title("Consultancy Hacks API Demo")
 st.markdown("---")
 
-# FAKE STAKEHOLDER METRICS (Hardcoded for presentation)
-st.subheader("Executive KPIs")
+# hard coding fake metric numbers
+st.subheader("(Fake) Metric Numbers")
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     st.metric(
-        label="Quarterly OpEx Savings", 
-        value="$1.24M", 
-        delta="12.5% vs Target",
-        delta_color="normal"
+        label="Quarterly Value", 
+        value="$100k"
     )
 with col2:
     st.metric(
-        label="Carbon Tax Exposure", 
-        value="$450K", 
-        delta="-$50K YoY (Risk Reduced)",
-        delta_color="inverse"
+        label="Monthly Value", 
+        value="$10k"
     )
 with col3:
     st.metric(
-        label="Grid Optimization Alpha", 
-        value="94.2%", 
-        delta="+1.4% WoW"
+        label="Weekly Value", 
+        value="$50k"
     )
 with col4:
     st.metric(
-        label="Regulatory Compliance Score", 
-        value="98/100", 
-        delta="Tier 1 Certified",
-        delta_color="normal"
+        label="Annual Value", 
+        value="$1M"
     )
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-# TABS FOR RAW DATA VISUALIZATION
-tab1, tab2 = st.tabs(["🟢 Live Raw Data (Today)", "📁 Stagnant Raw Data (Baseline)"])
 
-# ------------------------------------------
-# TAB 1: LIVE RAW DATA
-# ------------------------------------------
-with tab1:
-    st.markdown("#### Today's Raw Carbon Intensity")
-    st.markdown("Visualizing the raw JSON payload retrieved directly from the live API endpoint.")
+tab1, tab2, tab3 = st.tabs(["What is an API?", "Live Data Example", "Historical Data Example"])
+
+with tab1: 
+    st.markdown("### What is an API?")
+
+with tab2:
+    st.markdown("#### Pulling live data via API endpoint")
+    st.markdown("This page shows the functionalities of pulling in live data from an API endpoint. Each time the dashboard refreshes, another pull is made to the API key to obtain live data.")
     
     live_df = fetch_live_raw_data()
     
@@ -105,29 +93,24 @@ with tab1:
         fig_live = px.line(
             live_df, 
             x='Timestamp', 
-            y='Raw Intensity (gCO2/kWh)',
-            markers=True,
-            line_shape='spline',
-            color_discrete_sequence=['#1f77b4']
+            y='Raw Intensity (gCO2/kWh)'
         )
         fig_live.update_layout(
             xaxis_title="Time",
-            yaxis_title="Raw Intensity (gCO2/kWh)",
-            hovermode="x unified"
+            yaxis_title="Intensity (gCO2/kWh)"
+          
         )
         st.plotly_chart(fig_live, use_container_width=True)
         
         with st.expander("View Raw Data Table"):
             st.dataframe(live_df, use_container_width=True)
     else:
-        st.warning("Awaiting live data or API is currently unreachable.")
+        st.warning("Data not pulling")
 
-# ------------------------------------------
-# TAB 2: STAGNANT RAW DATA
-# ------------------------------------------
-with tab2:
-    st.markdown("#### Historical Baseline (October 1, 2023)")
-    st.markdown("Visualizing the raw JSON payload retrieved from a fixed historical API endpoint.")
+
+with tab3:
+    st.markdown("#### Pulling historical/stagnant data via API endpoint")
+    st.markdown("This page shows the functionalities of pulling in historical/stagnant data via a sepcific API endpoint that filters for data that was collected on Jan 1 2024. Each time the dashboard refreshes, another pull is made to the API key to obtain historical/stagnant data.")
     
     stagnant_df = fetch_stagnant_raw_data()
     
@@ -135,17 +118,15 @@ with tab2:
         fig_stagnant = px.area(
             stagnant_df, 
             x='Timestamp', 
-            y='Raw Intensity (gCO2/kWh)',
-            color_discrete_sequence=['#ff7f0e']
+            y='Intensity (gCO2/kWh)'
         )
         fig_stagnant.update_layout(
             xaxis_title="Time",
-            yaxis_title="Raw Intensity (gCO2/kWh)",
-            hovermode="x unified"
+            yaxis_title="Intensity (gCO2/kWh)"
         )
         st.plotly_chart(fig_stagnant, use_container_width=True)
         
         with st.expander("View Raw Data Table"):
             st.dataframe(stagnant_df, use_container_width=True)
     else:
-        st.warning("Awaiting stagnant data or API is currently unreachable.")
+        st.warning("Data not pulling")
