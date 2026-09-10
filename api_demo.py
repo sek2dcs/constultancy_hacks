@@ -83,6 +83,10 @@ tab1, tab2, tab3 = st.tabs(["What is an API?", "Live Data Example", "Historical 
 with tab1: 
     st.markdown("### What is an API?")
     st.info("API stands for Application Programming Interface. I like to think of an API as a gateway to data found on the internet. APIs are used to securely pull data from a source and present it in a way that is easy for us to use without any jargon or unnecessary information.")
+    st.markdown("---")
+    st.markdown("#### How can this help me save time?")
+    st.info("Instead of having to create multiple reports (quarterly, monthly, etc), you can use an API to pull in live data and show it in a dashboard. This way you can update the data on the fly, and save time and money on the reports." \
+    "There are other methods of using APIs as well. You can use APi data pulls to train models with relevant data immediately or use it as a gateway between data storage and work delvierables")
 
 with tab2:
     st.markdown("#### Pulling live data via API endpoint")
